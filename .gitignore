@@ -1,0 +1,13 @@
+# Ignorar variáveis de ambiente
+.env
+db/.env
+
+# Ignorar arquivos e pastas do Python
+__pycache__/
+*.pyc
+
+# Ignorar configurações do PyCharm/IDE
+.idea/
+
+# Outros arquivos temporários
+*.log
