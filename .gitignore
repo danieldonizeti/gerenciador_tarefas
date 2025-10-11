@@ -1,29 +1,31 @@
-# --- AMBIENTE VIRTUAL ---
-venv/
-.env
-
-# --- CACHE DO PYTHON ---
+# Arquivos Python compilados
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
+*.pyo
+*.pyd
 
-# --- ARQUIVOS TEMPORÁRIOS ---
+# Diretórios de logs e bases de dados locais
 *.log
-*.tmp
-*.bak
+*.sqlite
+*.db
 
-# --- CONFIGURAÇÕES DO IDE (PyCharm, VSCode, etc) ---
+# Pastas e arquivos da IDE PyCharm
 .idea/
-.vscode/
+*.iml
+*.ipr
+*.iws
 
-# --- ARQUIVOS DE SISTEMA ---
+# Arquivos de ambiente virtual
+venv/
+env/
+ENV/
+*.env
+
+# Arquivos de sistema
 .DS_Store
 Thumbs.db
 
-# --- BANCO DE DADOS LOCAL (se usar SQLite futuramente) ---
-*.sqlite3
-
-# --- BACKUPS E EXPORTAÇÕES ---
-*.zip
-*.tar
-*.gz
+# Arquivos temporários
+*.tmp
+*.bak
+*.swp
