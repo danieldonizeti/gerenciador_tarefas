@@ -1,13 +1,29 @@
-# Ignorar variáveis de ambiente
+# --- AMBIENTE VIRTUAL ---
+venv/
 .env
-db/.env
 
-# Ignorar arquivos e pastas do Python
+# --- CACHE DO PYTHON ---
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 
-# Ignorar configurações do PyCharm/IDE
-.idea/
-
-# Outros arquivos temporários
+# --- ARQUIVOS TEMPORÁRIOS ---
 *.log
+*.tmp
+*.bak
+
+# --- CONFIGURAÇÕES DO IDE (PyCharm, VSCode, etc) ---
+.idea/
+.vscode/
+
+# --- ARQUIVOS DE SISTEMA ---
+.DS_Store
+Thumbs.db
+
+# --- BANCO DE DADOS LOCAL (se usar SQLite futuramente) ---
+*.sqlite3
+
+# --- BACKUPS E EXPORTAÇÕES ---
+*.zip
+*.tar
+*.gz
