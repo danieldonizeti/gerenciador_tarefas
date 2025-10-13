@@ -1,4 +1,3 @@
-ECHO est� ativado.
 # Gerenciador de Tarefas
 
 Um projeto em Python para gerenciar tarefas, permitindo adicionar, listar, atualizar e excluir tarefas de forma simples e organizada.
@@ -65,9 +64,12 @@ Após rodar o projeto (`python main.py`), você verá um menu assim:
    - Escolha a opção `2`
    - Você verá algo assim:
 
-ID: 1
+ID: 1 
+
 Título: Estudar Python
+
 Descrição: Praticar exercícios de dicionários
+
 Prioridade: Alta
 
 3. Para atualizar uma tarefa:
