@@ -1,5 +1,3 @@
-from ipaddress import ip_address
-
 from dao.tarefa_dao import TarefaDAO
 from models.tarefa import Tarefa
 from utils import utils
