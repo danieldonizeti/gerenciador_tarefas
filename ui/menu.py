@@ -70,11 +70,25 @@ def excluir_tarefa():
             print("Operação cancelada pelo usuario")
 
 
+def filtrar_tarefas_menu():
+    campo , valor = utils.filtros_estrategicos()
+    if campo == "0" or valor == "0":
+        print("Operação cancelada")
+        return
+
+    tarefas = TarefaDAO.filtrar_tarefas(campo, valor)
+    if not tarefas:
+        print("Nenhuma tarefa encontrada")
+    else:
+        utils.exibir_tarefas(tarefas)
+
+
 opcoes = {
     1: adicionar_tarefa,
     2: listar_tarefas,
     3: atualizar_tarefa,
-    4: excluir_tarefa
+    4: excluir_tarefa,
+    5: filtrar_tarefas_menu
 }
 
 def exibir_menu():

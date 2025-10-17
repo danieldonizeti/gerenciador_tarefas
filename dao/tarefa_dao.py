@@ -125,3 +125,28 @@ class TarefaDAO:
             return _tratar_erro("Erro no banco de dados ao excluir tarefa", e, "excluir", False)
         except Exception as e:
             return _tratar_erro("Erro inesperado ao excluir tarefa", e, "excluir", False)
+
+    def filtrar_tarefas(campo: str, valor: str):
+        if not campo or not valor:
+            print("Filtro invalido")
+            return
+
+        if campo == "titulo":
+            query = f"""SELECT {TarefaDAO.atributos} FROM {TarefaDAO.tabela} WHERE {campo} LIKE %s """
+            parametro = (f"%{valor}%",)
+        else:
+            query = f"""SELECT {TarefaDAO.atributos} FROM {TarefaDAO.tabela} WHERE {campo} = %s """
+            parametro = (valor,)
+
+        try:
+            with DataCon() as conn, conn.cursor(dictionary=True) as cursor:
+                cursor.execute(query, parametro)
+                return [Tarefa(**row) for row in cursor.fetchall()]
+        except mysql.connector.Error as e:
+            return _tratar_erro("Erro no banco de dados ao filtrar tarefas", e, "filtrar_tarefas",[])
+        except Exception as e:
+            return _tratar_erro("Erro inesperado ao filtrar tarefas", e, "filtrar_tarefas", [])
+
+
+
+
