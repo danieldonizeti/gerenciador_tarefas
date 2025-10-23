@@ -70,7 +70,7 @@ def ler_filtro_status():
     while True:
         filtro = input("Escolha o status 1=Concluída, 2=Pendente 0=Cancelar: ").strip()
         if filtro in opc_status:
-            return ("status" ,opc_status[filtro])
+            return "status" ,opc_status[filtro]
         elif filtro == "0":
             return "0", "0"
         else:
@@ -82,7 +82,7 @@ def ler_filtro_prioridade():
     while True:
         filtro = input("Escolha a prioridade 1=Alta, 2=Media, 3=Baixa, 0=Cancelar: ")
         if filtro in opc_prioridades:
-            return ("prioridade", opc_prioridades[filtro])
+            return "prioridade", opc_prioridades[filtro]
         elif filtro == "0":
             return "0", "0"
         else:
@@ -95,7 +95,58 @@ def ler_filtro_titulo():
         titulo = input("Pesquise um titulo, 0=Cancelar: ").strip()
         if titulo == "0":
             return "0", "0"
-    return ("titulo", titulo)
+    return "titulo", titulo
+
+
+def filtros_estrategicos():
+    estrategias_filtro = {1: ler_filtro_titulo, 2: ler_filtro_prioridade, 3: ler_filtro_status}
+    while True:
+        opc_filtro = ler_inteiro("Filtrar por 1 = Titulo | 2 = Prioridade | 3 = Status | 0 = Cancelar: ")
+        if opc_filtro == 0:
+            return "0", "0"
+        elif opc_filtro in estrategias_filtro:
+            return estrategias_filtro[opc_filtro]()
+        else:
+           print("Opção invalida, tente novamente")
+
+
+def filtros_estrategicos_multiplos():
+    filtros_selecionados = {}
+    while True:
+        campo, valor = filtros_estrategicos()
+        if campo == "0" or valor == "0":
+            if not filtros_selecionados:
+                print("Operação cancelada, nenhum filtro aplicado.")
+            break
+        if campo in filtros_selecionados:
+            print(f"⚠️ Você já escolheu '{campo}'. Substituindo valor anterior.")
+        filtros_selecionados[campo] = valor
+
+        res = input("Adicionar mais filtros ? (s/n): ").strip().lower()
+        if res in ("não", "nao", "n"):
+            break
+
+    if filtros_selecionados:
+        print("\nFiltros aplicados:", filtros_selecionados)
+    return filtros_selecionados
+
+
+def ler_ordenacao():
+    tipos_ordenacoes = {1: "titulo", 2: "prioridade", 3: "status", 4: "data_criacao"}
+    direcoes = {1: "ASC", 2: "DESC"}
+
+    while True:
+        campo = ler_inteiro("Ordernar por 1: Titulo | 2: Prioridade | 3: Status | 4: Data criação | 0: Cancelar: ")
+        if campo == 0: return None, None
+
+        if campo in tipos_ordenacoes:
+            direcao = ler_inteiro("1 = Crescente | 2 = Decrescente: ")
+            if direcao in direcoes:
+                return tipos_ordenacoes[campo], direcoes[direcao]
+            else:
+                print("Por favor escolha 1 ou 2 ")
+        else:
+            print("Opção invalida")
 
 
 def exibir_tarefas(tarefas):
@@ -110,15 +161,3 @@ def exibir_tarefas(tarefas):
     for t in tarefas:
         print(f"{t.id:<5} {t.titulo:<20} {t.prioridade:<14}  {t.status:<13}")
     print('='*50)
-
-
-def filtros_estrategicos():
-    estrategias_filtro = {1: ler_filtro_titulo, 2: ler_filtro_prioridade, 3: ler_filtro_status}
-    while True:
-        opc_filtro = ler_inteiro("Filtrar por 1 = Titulo | 2 = Prioridade | 3 = Status | 0 = Cancelar: ")
-        if opc_filtro == 0:
-            return "0", "0"
-        elif opc_filtro in estrategias_filtro:
-            return estrategias_filtro[opc_filtro]()
-        else:
-           print("Opção invalida, tente novamente")

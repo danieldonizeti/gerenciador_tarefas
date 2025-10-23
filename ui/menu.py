@@ -18,7 +18,11 @@ def adicionar_tarefa():
 
 
 def listar_tarefas():
-    tarefas = TarefaDAO.listar()
+    campo_ordem = direcao = None
+    escolha = input("Deseja ordenar as tarefas? (s/n): ").strip().lower()
+    if escolha in ("s", "sim"):
+        campo_ordem , direcao = utils.ler_ordenacao()
+    tarefas = TarefaDAO.listar(campo_ordem, direcao)
     utils.exibir_tarefas(tarefas)
 
 
@@ -71,15 +75,13 @@ def excluir_tarefa():
 
 
 def filtrar_tarefas_menu():
-    campo , valor = utils.filtros_estrategicos()
-    if campo == "0" or valor == "0":
-        print("Operação cancelada")
-        return
-
-    tarefas = TarefaDAO.filtrar_tarefas(campo, valor)
-    if not tarefas:
-        print("Nenhuma tarefa encontrada")
-    else:
+    campo_ordem = direcao = None
+    filtros_selecionados = utils.filtros_estrategicos_multiplos()
+    if filtros_selecionados:
+        escolha = input("Deseja ordenar os resultados? (s/n): ").strip().lower()
+        if escolha in ("sim", "s"):
+            campo_ordem, direcao = utils.ler_ordenacao()
+        tarefas = TarefaDAO.filtrar_tarefas(filtros_selecionados,campo_ordem, direcao,)
         utils.exibir_tarefas(tarefas)
 
 

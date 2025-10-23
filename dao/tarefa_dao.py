@@ -58,13 +58,14 @@ class TarefaDAO:
 
 
     @staticmethod
-    def listar() -> list[Tarefa]:
+    def listar(campo_ordem: str=None, direcao: str=None) -> list[Tarefa]:
         """
         Retorna todas as tarefas cadastradas no banco de dados.
         """
-        query = f"""
-        SELECT {TarefaDAO.atributos} FROM {TarefaDAO.tabela}
-        """
+        query = f"SELECT {TarefaDAO.atributos} FROM {TarefaDAO.tabela}"
+
+        if campo_ordem and direcao:
+            query += f" ORDER BY {campo_ordem} {direcao}"
 
         try:
             with DataCon() as conn, conn.cursor(dictionary=True) as cursor:
@@ -126,21 +127,28 @@ class TarefaDAO:
         except Exception as e:
             return _tratar_erro("Erro inesperado ao excluir tarefa", e, "excluir", False)
 
-    def filtrar_tarefas(campo: str, valor: str):
-        if not campo or not valor:
-            print("Filtro invalido")
-            return
 
-        if campo == "titulo":
-            query = f"""SELECT {TarefaDAO.atributos} FROM {TarefaDAO.tabela} WHERE {campo} LIKE %s """
-            parametro = (f"%{valor}%",)
-        else:
-            query = f"""SELECT {TarefaDAO.atributos} FROM {TarefaDAO.tabela} WHERE {campo} = %s """
-            parametro = (valor,)
+    def filtrar_tarefas(filtros: dict, campo_ordem: str=None, direcao: str=None):
+        condicoes = list()
+        parametros = list()
+
+        query = f"SELECT {TarefaDAO.atributos} FROM {TarefaDAO.tabela}"
+        if filtros:
+            for campo, valor in filtros.items():
+                if campo == "titulo":
+                    condicoes.append("titulo LIKE %s")
+                    parametros.append(f"%{valor}%")
+                else:
+                    condicoes.append(f"{campo} = %s")
+                    parametros.append(valor)
+        if condicoes:
+            query += " WHERE " + " AND ".join(condicoes)
+        if campo_ordem and direcao:
+            query += f" ORDER BY {campo_ordem} {direcao} "
 
         try:
             with DataCon() as conn, conn.cursor(dictionary=True) as cursor:
-                cursor.execute(query, parametro)
+                cursor.execute(query, parametros)
                 return [Tarefa(**row) for row in cursor.fetchall()]
         except mysql.connector.Error as e:
             return _tratar_erro("Erro no banco de dados ao filtrar tarefas", e, "filtrar_tarefas",[])
