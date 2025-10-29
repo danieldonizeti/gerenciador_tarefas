@@ -1,2 +1,3 @@
 ECHO est� ativado.
 mysql-connector-python
+pytest
